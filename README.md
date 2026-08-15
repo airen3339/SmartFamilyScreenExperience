@@ -573,121 +573,25 @@ GET /api/points/summary?family_id=xxx
 
 ## 4.1 用户表（users）
 
-```sql
-CREATE TABLE users (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    openid      VARCHAR(64) UNIQUE NOT NULL,     -- 微信openid
-    phone       VARCHAR(20),
-    nickname    VARCHAR(64),
-    avatar_url  VARCHAR(256),
-    family_id   BIGINT,                           -- 关联家庭
-    role        ENUM('admin','member'),           -- 家庭主/成员
-    created_at  DATETIME DEFAULT NOW(),
-    updated_at  DATETIME
-);
-```
 
 ## 4.2 家庭表（families）
 
-```sql
-CREATE TABLE families (
-    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name         VARCHAR(64),                     -- 家庭名称
-    community_id BIGINT,                          -- 所属小区
-    device_id    VARCHAR(64),                     -- 绑定电视设备
-    created_at   DATETIME DEFAULT NOW()
-);
-```
 
 ## 4.3 积分流水表（point_transactions）
 
-```sql
-CREATE TABLE point_transactions (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    family_id   BIGINT NOT NULL,
-    type        ENUM('earn','use') NOT NULL,
-    source      VARCHAR(64),     -- 来源：ad_watch/signin/invite...
-    amount      INT NOT NULL,    -- 积分数量（正数）
-    balance     INT NOT NULL,    -- 操作后余额
-    desc_text   VARCHAR(256),    -- 描述
-    related_id  BIGINT,          -- 关联业务ID（广告ID/兑换ID等）
-    created_at  DATETIME DEFAULT NOW(),
-    INDEX idx_family_id (family_id),
-    INDEX idx_created_at (created_at)
-);
-```
 
 ## 4.4 广告表（ads）
 
-```sql
-CREATE TABLE ads (
-    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
-    merchant_id  BIGINT NOT NULL,
-    title        VARCHAR(128),
-    video_url    VARCHAR(256),
-    duration     INT,             -- 秒数：15/30/60
-    reward_points INT,            -- 观看奖励积分
-    cost_per_view DECIMAL(8,2),   -- 商家每次付费
-    status       ENUM('pending','approved','running','paused','ended'),
-    community_ids TEXT,           -- 投放小区ID列表（JSON）
-    daily_budget  DECIMAL(10,2),
-    start_date   DATE,
-    end_date     DATE,
-    total_views  INT DEFAULT 0,
-    created_at   DATETIME DEFAULT NOW()
-);
-```
+
 
 ## 4.5 广告观看记录表（ad_views）
 
-```sql
-CREATE TABLE ad_views (
-    id         BIGINT PRIMARY KEY AUTO_INCREMENT,
-    ad_id      BIGINT NOT NULL,
-    family_id  BIGINT NOT NULL,
-    device_id  VARCHAR(64),
-    start_time DATETIME,
-    end_time   DATETIME,
-    duration   INT,              -- 实际观看秒数
-    is_valid   TINYINT DEFAULT 0, -- 是否有效（达到要求时长）
-    points_rewarded INT DEFAULT 0,
-    created_at DATETIME DEFAULT NOW(),
-    INDEX idx_ad_family (ad_id, family_id),
-    UNIQUE KEY unique_daily (ad_id, family_id, DATE(created_at)) -- 每天每广告只记录一次有效
-);
-```
+
 
 ## 4.6 商品兑换表（redemptions）
 
-```sql
-CREATE TABLE redemptions (
-    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    family_id   BIGINT NOT NULL,
-    item_id     BIGINT NOT NULL,     -- 兑换商品ID
-    item_type   VARCHAR(32),         -- coupon/service/membership
-    points_used INT NOT NULL,
-    status      ENUM('pending','confirmed','used','expired'),
-    code        VARCHAR(32),         -- 核销码
-    expire_at   DATETIME,
-    created_at  DATETIME DEFAULT NOW()
-);
-```
 
 ## 4.7 商家表（merchants）
-
-```sql
-CREATE TABLE merchants (
-    id           BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name         VARCHAR(128) NOT NULL,
-    category     VARCHAR(64),        -- 餐饮/家政/教育...
-    community_id BIGINT,
-    contact_name VARCHAR(64),
-    contact_phone VARCHAR(20),
-    balance      DECIMAL(12,2) DEFAULT 0,  -- 账户余额（预充值）
-    status       ENUM('pending','active','suspended'),
-    created_at   DATETIME DEFAULT NOW()
-);
-```
 
 ---
 
