@@ -1461,3 +1461,30 @@ A：三层护城河：①家庭数据（家庭画像比手机个人画像价值�
 *「投资人版 + 开发团队执行版」*  
 *版本日期：2026年8月*  
 *下一版本：V5.0 城市扩张与区域合伙人模式*
+
+
+---
+
+## 🏢 关于我们
+
+<p align="center">
+  <a href="http://www.net188.net">
+    <img src="http://www.net188.net/images/logo1.png" alt="Net188 Logo" width="200" />
+  </a>
+</p>
+
+<p align="center">
+  <strong>Net188 · 互联网技术服务</strong>
+</p>
+
+<p align="center">
+  专注于跨平台应用开发、AI Agent 集成与大模型应用落地。<br/>
+  提供从产品设计、开发实施到部署运维的全栈技术解决方案。
+</p>
+
+<p align="center">
+  🌐 <a href="http://www.net188.net"><strong>www.net188.net</strong></a>
+</p>
+
+---
+
